@@ -1,0 +1,115 @@
+<% 
+var headContent = {
+	include("/pages/template/head.html"){}
+};
+
+var bodyContent = {
+%>
+<form name="form1" action="" method="post" class="form-horizontal" role="form">
+	<!-- 数据列表 -->
+	<table class="table">
+		<%  // 列表头部 %>
+			<tr>
+				<td>归属科目</td>
+				<td>${model.subjectId}</td>
+			</tr>
+			<tr>
+				<td>归属年级</td>
+				<td>${model.gradeId}</td>
+			</tr>
+			<tr>
+				<td>登录名</td>
+				<td>${model.loginName}</td>
+			</tr>
+			<tr>
+				<td>密码</td>
+				<td>${model.password}</td>
+			</tr>
+			<tr>
+				<td>工号，年级id & 科目 id </td>
+				<td>${model.no}</td>
+			</tr>
+			<tr>
+				<td>用户名</td>
+				<td>${model.name}</td>
+			</tr>
+			<tr>
+				<td>电话</td>
+				<td>${model.phone}</td>
+			</tr>
+			<tr>
+				<td>用户类型,1:管理员，2：采集者 ，3：编辑者</td>
+				<td>${model.userType}</td>
+			</tr>
+			<tr>
+				<td>用户头像</td>
+				<td>${model.photo}</td>
+			</tr>
+			<tr>
+				<td>最后登陆IP</td>
+				<td>${model.loginIp}</td>
+			</tr>
+			<tr>
+				<td>最后登陆时间</td>
+				<td>${model.loginDate}</td>
+			</tr>
+			<tr>
+				<td>是否可登录</td>
+				<td>
+ 
+	<% if(model.loginFlag==1) { %>
+	管理员
+	<%	} %>
+	<% if(model.loginFlag==2) { %>
+	普通用户
+	<%	} %>
+	<% if(model.loginFlag==3) { %>
+	前台用户
+	<%	} %>
+	<% if(model.loginFlag==4) { %>
+	第三方用户
+	<%	} %>
+	<% if(model.loginFlag==5) { %>
+	API用户
+	<%	} %>
+
+				</td>  
+			</tr>
+			<tr>
+				<td>创建者</td>
+				<td>${model.createBy}</td>
+			</tr>
+			<tr>
+				<td>创建时间</td>
+				<td>${model.createDate}</td>
+			</tr>
+			<tr>
+				<td>更新者</td>
+				<td>${model.updateBy}</td>
+			</tr>
+			<tr>
+				<td>更新时间</td>
+				<td>${model.updateDate}</td>
+			</tr>
+			<tr>
+				<td>备注信息</td>
+				<td>${model.remarks}</td>
+			</tr>
+			<tr>
+				<td>删除标记</td>
+				<td>${model.delFlag}</td>
+			</tr>
+		
+	</table>
+	
+	<div style="height: 50px;clear: both;">&nbsp;</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container" style="padding: 5px 0px 5px 0px;text-align: center;">
+		<button class="btn btn-default" onclick="closeIframe();return false;">关 闭</button>
+	  </div>
+	</nav>
+</form>
+<%}; %>
+
+<% layout("/pages/template/_layout.html",{head:headContent,body:bodyContent}){ %>
+<%} %>

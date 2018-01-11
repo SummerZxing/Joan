@@ -1,0 +1,90 @@
+package #(package);
+
+import com.pengji.modules.model.#(className);
+import com.jfinal.aop.Before;
+import com.pengji.base.ApiResp;
+import com.pengji.base.BaseProjectController;
+import com.jfinal.plugin.activerecord.Page;
+
+/**
+ * #(className) 管理	#(tableMeta.remarks)
+ * 描述：
+ * 
+ */
+public class #(className)Controller extends BaseProjectController {
+
+	//private static final Log log = Log.getLog(#(className)Controller.class);
+	
+	static #(className)Service srv = #(className)Service.me;
+	
+	/**
+	 * 列表
+	 * /#(classNameSmall)/list
+	 */
+	public void list() {
+		//renderJson(ApiResp.success(srv.paginate(getParaToInt("p", 1), 40)));
+		Page<#(className)> paginate = srv.paginate(getParaToInt("p", 1), 40);
+		setAttr("page", paginate);
+		render("/pages/#(basePath)/#(classNameSmall)/#(classNameSmall)List.html");
+	}
+	
+	/**
+	 * 准备添加
+	 * /#(classNameSmall)/add
+	 */
+//	public void add() {
+//		render("#(classNameSmall)Add.html");
+//	}
+	
+	/**
+	 * 保存
+	 * /#(classNameSmall)/save
+	 */
+	@Before({#(className)Validator.class})
+	public void save() {
+		srv.save(getModel(#(className).class));
+		renderJson(ApiResp.success());
+	}
+
+	/**
+	 * 准备更新
+	 * /#(classNameSmall)/edit
+	 */
+	public void edit() {
+		#(className) #(classNameSmall) = srv.findById(getParaToInt());
+	//	setAttr("#(classNameSmall)", #(classNameSmall));
+	//	render("#(classNameSmall)Edit.html");
+		renderJson(ApiResp.success(#(classNameSmall)));
+	}
+
+	/**
+	 * 更新
+	 * /#(classNameSmall)/update
+	 */
+	@Before(#(className)Validator.class)
+	public void update() {
+		srv.update(getModel(#(className).class));
+		renderJson(ApiResp.success());
+	}
+
+	/**
+	 * 查看
+	 * /#(classNameSmall)/view
+	 */
+	public void view() {
+		#(className) #(classNameSmall) = srv.findById(getParaToInt());
+	//	setAttr("#(classNameSmall)", #(classNameSmall));
+	//	render("#(classNameSmall)View.html");
+		renderJson(ApiResp.success(#(classNameSmall)));
+	}
+	 
+	/**
+	 * 删除
+	 * /#(classNameSmall)/delete
+	 */
+	public void delete() {
+		srv.delete(getParaToInt());
+		renderJson(ApiResp.success());
+	}
+	
+}

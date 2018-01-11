@@ -1,0 +1,58 @@
+<style>
+<!--
+body { padding-top: 51px; }
+-->
+</style>
+<script type="text/javascript">
+	function showMenu(id){
+		$("#"+id).addClass('active');
+		if($("#"+id).parent().is('.dropdown-menu')){
+			$("#"+id).parent().parent().addClass('active');
+		}
+	}
+	
+	$(function(){
+		$(window).resize(function(){
+			$('body').css('padding-top',$('nav.navbar.navbar-fixed-top').height()+'px');
+		});
+		$('body').css('padding-top',$('nav.navbar.navbar-fixed-top').height()+'px');
+	});
+	
+</script>
+
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand">Home</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+		<li id="page_contact"><a href="contact/list">联系人管理</a></li>
+		<li id="page_system" role="presentation" class="dropdown">
+		    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false">
+		      系统管理<span class="caret"></span>
+		    </a>
+		    <ul class="dropdown-menu" role="menu">
+		    	<li id="page_department"><a role="menuitem" href="department/list">部门管理</a></li>
+				<li id="page_user"><a role="menuitem" href="user/list">用户管理</a></li>
+				<li id="page_role"><a role="menuitem" href="role/list">角色管理</a></li>
+				<li id="page_menu"><a role="menuitem" href="menu/list">菜单管理</a></li>
+		     	<li id="page_dict"><a role="menuitem" href="dict/list">数据字典</a></li>
+		    </ul>
+  		</li>
+      </ul>
+      
+      <ul class="nav navbar-nav navbar-right" style="margin-right: 2%">
+        <li><p class="navbar-text"><a href="admin/person">张兴</a>，您好</p></li>
+        <li><p class="navbar-text"  style="margin-right: 10px;margin-left: 0px;"><a href="#"  onclick="window.location.href='admin/logout';return false;">退出</a></p></li>
+		</li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<!-- <input type="hidden" name="form.orderColumn" value="" />
+<input type="hidden" name="form.orderAsc" value="" /> -->
