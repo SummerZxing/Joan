@@ -28,6 +28,18 @@ public class Table implements Serializable, Cloneable {
 	 */
 	private List<String> primaryKeyList = new ArrayList<String>();
 
+	private String primaryKey ; 
+	
+	
+	
+	public String getPrimaryKey() {
+		return primaryKey;
+	}
+
+	public void setPrimaryKey(String primaryKey) {
+		this.primaryKey = primaryKey;
+	}
+
 	public Table() {
 	}
 
@@ -36,6 +48,7 @@ public class Table implements Serializable, Cloneable {
 		this.remarks = t.getRemarks();
 		this.columns = t.getColumns();
 		this.primaryKeyList = t.getPkList();
+		this.primaryKey = primaryKeyList.get(0);
 	}
 
 	/**

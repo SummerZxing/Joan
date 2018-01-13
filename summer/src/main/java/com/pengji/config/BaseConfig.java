@@ -18,7 +18,6 @@ import com.jfinal.config.Routes;
 import com.jfinal.core.Const;
 import com.jfinal.ext.handler.ContextPathHandler;
 import com.jfinal.kit.PathKit;
-import com.jfinal.kit.PropKit;
 import com.jfinal.log.Log4jLogFactory;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.CaseInsensitiveContainerFactory;
@@ -35,10 +34,11 @@ import com.pengji.component.beelt.BeeltFunctions;
 import com.pengji.component.handler.BasePathHandler;
 import com.pengji.component.handler.CurrentPathHandler;
 import com.pengji.component.handler.HtmlHandler;
+import com.pengji.component.interceptor.CommonInterceptor;
 import com.pengji.component.swagger.SwaggerConfig;
 import com.pengji.component.swagger.SwaggerManager;
 import com.pengji.component.swagger.SwaggerUI;
-import com.pengji.modules.model._MappingKit;
+import com.pengji.utils.JFlyFoxCache;
 import com.pengji.utils.StrUtils;
 
 
@@ -58,9 +58,6 @@ public class BaseConfig extends JFinalConfig{
 	
 	@Override
 	public void configConstant(Constants me) {
-		
-		 
-		PropKit.use("a_little_config.txt");                // 加载少量必要配置，随后可用PropKit.get(...)获取值           
 		me.setDevMode(isDevMode());
 		me.setViewType(ViewType.JSP); // 设置视图类型为Jsp，否则默认为FreeMarker
 		me.setLogFactory(new Log4jLogFactory());
@@ -70,27 +67,12 @@ public class BaseConfig extends JFinalConfig{
 		me.setError500View(Config.getStr("PAGES.500"));
 		   //默认10M,此处设置为最大100M
 	    me.setMaxPostSize(10*Const.DEFAULT_MAX_POST_SIZE);
-	    
         JFinal3BeetlRenderFactory rf = new JFinal3BeetlRenderFactory();
         rf.config();
         me.setRenderFactory(rf);
     	// 获取GroupTemplate ,可以设置共享变量等操作
         GroupTemplate groupTemplate = rf.groupTemplate;
         groupTemplate.registerFunctionPackage("flyfox", BeeltFunctions.class);
-/*		groupTemplate.registerFunctionPackage("strutil", BeetlStrUtils.class);
-		groupTemplate.registerFunctionPackage("flyfox", BeeltFunctions.class);
-		groupTemplate.registerFunctionPackage("temp", TemplateService.class);
-		groupTemplate.registerFunctionPackage("tempImage", TemplateImageService.class);
-		groupTemplate.registerFunctionPackage("tempVideo", TemplateVideoService.class);*/
-		// 开启日志
-		Config.setStartArg("jboot.swagger.path", "/swaggerui");
-		Config.setStartArg("jboot.swagger.title", "API接口文档");
-		Config.setStartArg("jboot.swagger.description", "");
-		Config.setStartArg("jboot.swagger.version", "1.0");
-		Config.setStartArg("jboot.swagger.termsOfService", "http://jboot.io");
-		Config.setStartArg("jboot.swagger.contact", "email:summer_Zxing@163.com;qq:172608872");
-		Config.setStartArg("jboot.swagger.host", "127.0.0.1");
-		
 		SqlReporter.setLog(true);
 	}
 
@@ -158,14 +140,15 @@ public class BaseConfig extends JFinalConfig{
 			arp.setDialect(new OracleDialect());
 			arp.setContainerFactory(new CaseInsensitiveContainerFactory(true));
 		}
-		//new AutoBindModels(arp);
+		new AutoBindModels(arp);
 		// 所有映射在 MappingKit 中自动化搞定
-		_MappingKit.mapping(arp);
+		//_MappingKit.mapping(arp);
 		me.add(arp);
 	}
 
 	@Override
 	public void configInterceptor(Interceptors me) {
+		me.add(new CommonInterceptor());
 /*		me.add(new ExceptionInterceptor());
 		me.add(new LoginInterceptor());
 		me.add(new CommonInterceptor());*/
@@ -189,6 +172,7 @@ public class BaseConfig extends JFinalConfig{
 	@Override
 	public void afterJFinalStart() {
 		super.afterJFinalStart();
+		JFlyFoxCache.init();
 		System.out.println("##################################");
 		System.out.println("############start##########");
 		System.out.println("##################################");
@@ -216,88 +200,9 @@ public class BaseConfig extends JFinalConfig{
         }  
     }  
     
-	@SuppressWarnings("unchecked")  
-    public static Map<String , String[]> getRequestMapByJetty(ServletRequest request) {  
-        try {  
-            Object parameterObject = parametersField.get(request);  
-            return (Map<String,String[]>)parameterObject;  
-        } catch (IllegalAccessException e) {  
-            e.printStackTrace();  
-            return Collections.emptyMap();  
-        }  
-    }  
-    
-    @SuppressWarnings("unused")
-	private void initFieldByTomcat(){
-		try {  
-			Class clazz = Class.forName("org.apache.catalina.connector.RequestFacade"); 
-            requestField = clazz.getDeclaredField("request");  
-            requestField.setAccessible(true);  
-  
-  
-            parametersParsedField = requestField.getType().getDeclaredField("parametersParsed");  
-            parametersParsedField.setAccessible(true);  
-  
-  
-            coyoteRequestField = requestField.getType().getDeclaredField("coyoteRequest");  
-            coyoteRequestField.setAccessible(true);  
-  
-  
-            parametersField = coyoteRequestField.getType().getDeclaredField("parameters");  
-            parametersField.setAccessible(true);  
-  
-  
-            hashTabArrField = parametersField.getType().getDeclaredField("paramHashStringArray");  
-            hashTabArrField.setAccessible(true); 
-			
-
-        } catch (Exception e) {  
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.  
-        }  
-    }
-    
-    @SuppressWarnings("unused")
-	private void initFieldByJetty(){
-		try {  
-		//jetty下	
-		    Class clazz = Class.forName("org.eclipse.jetty.server.Request"); 
-		    
-/*		    requestField = clazz.getDeclaredField("request");  
-            requestField.setAccessible(true);  */
-  
-  
- /*           parametersParsedField = requestField.getType().getDeclaredField("parametersParsed");  
-            parametersParsedField.setAccessible(true);  
-  
-  
-            coyoteRequestField = requestField.getType().getDeclaredField("coyoteRequest");  
-            coyoteRequestField.setAccessible(true);  */
-		    
-		   // parametersField = clazz.getDeclaredField("_parameters");  
-		    parametersField = org.eclipse.jetty.server.Request.class.getDeclaredField("_serverName");  
-  //          parametersField = coyoteRequestField.getType().getDeclaredField("_parameters");  
-            parametersField.setAccessible(true);  
-/*  
-  
-            hashTabArrField = parametersField.getType().getDeclaredField("paramHashStringArray");  
-            hashTabArrField.setAccessible(true); */
-        } catch (Exception e) {  
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.  
-        }  
-    }
-    
+       
     public static void main(String[] args) {
 	 
-		try {
-			   Class clazz = Class.forName("org.eclipse.jetty.server.Request");
-			  parametersField = clazz.getDeclaredField("_parameters");  
-			  System.out.println(parametersField);
-			  
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} 
-	  
 	    
 	}
 }

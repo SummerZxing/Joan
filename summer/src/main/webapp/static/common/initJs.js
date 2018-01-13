@@ -16,8 +16,8 @@ jQuery(function($) {
 });
 
 function mySort(){
-	var $orderColumn = $(":input[name='form.orderColumn']")||'';
-	var $orderAsc = $(":input[name='form.orderAsc']")||'';
+	var $orderColumn = $("input[name='form.orderColumn']")||'';
+	var $orderAsc = $("input[name='form.orderAsc']")||'';
 	if($orderColumn!=''){
 		$("th.sorting[name='"+$orderColumn.val()+"']").removeClass('sorting').addClass('sorting_'+$orderAsc.val());
 	}

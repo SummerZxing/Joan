@@ -1,24 +1,9 @@
-/**
- * Copyright (c) 2015-2017, Michael Yang 杨福海 (fuhai999@gmail.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- *  http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.pengji.component.swagger;
 
 import com.pengji.config.annotation.PropertieConfig;
 import com.pengji.utils.StringUtils;
 
-@PropertieConfig(prefix = "jboot.swagger")
+@PropertieConfig(prefix = "swagger")
 public class SwaggerConfig {
 
     private String path;
@@ -29,10 +14,23 @@ public class SwaggerConfig {
     private String termsOfService;
     private String host;
 
-    // 多个联系方式用分号；隔开  例如：jboot.swagger.contact=email:fuhai999@163.com;qq:1506615067
+    // 多个联系方式用分号；隔开  例如：jboot.swagger.contact=email:summer_Zxing@163.com;qq:172608872
     private String contact;
+    
+    // 模板地址
+    private String tplPath;
+    
+    
 
-    public String getPath() {
+    public String getTplPath() {
+		return tplPath;
+	}
+
+	public void setTplPath(String tplPath) {
+		this.tplPath = tplPath;
+	}
+
+	public String getPath() {
         return path;
     }
 

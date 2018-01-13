@@ -2,15 +2,19 @@ package com.pengji.component.beelt;
 
 import java.util.Date;
 
-import com.pengji.modules.user.SysUser;
+import com.pengji.modules.upms.cache.ConfigCache;
+import com.pengji.modules.upms.cache.DictCache;
+import com.pengji.modules.upms.model.SysConfig;
+import com.pengji.modules.upms.model.SysUser;
 import com.pengji.utils.DateUtils;
+import com.pengji.utils.NumberUtils;
 import com.pengji.utils.StrUtils;
 import com.pengji.utils.extend.HtmlUtils;
 
 public class BeeltFunctions extends TemplateFunctions {
 
 	// //////////////////////////数据字典///////////////////////////////////////////
-/*
+
 	public static String dictSelect(String type, int selected_value) {
 		return DictCache.getSelect(type, selected_value);
 	}
@@ -39,7 +43,7 @@ public class BeeltFunctions extends TemplateFunctions {
 
 	public static SysConfig getConfig(String key) {
 		return ConfigCache.getSysConfig(key);
-	}*/
+	}
 
 	// //////////////////////自定义方法///////////////////////////
 

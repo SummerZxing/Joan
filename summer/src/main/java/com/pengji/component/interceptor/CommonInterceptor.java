@@ -12,6 +12,8 @@ import com.jfinal.core.Action;
 import com.jfinal.core.Controller;
 import com.jfinal.core.JFinal;
 import com.jfinal.log.Log;
+import com.pengji.base.BaseController;
+import com.pengji.base.BaseForm;
 import com.pengji.utils.DateUtils;
 
 
@@ -25,22 +27,29 @@ public class CommonInterceptor implements Interceptor {
 	protected static final Log log = Log.getLog(CommonInterceptor.class);
 	
 	private static int maxOutputLengthOfParaValue = 512;
+	
 	public void intercept(Invocation ai) {
 		Controller controller = ai.getController();
-		String target = ai.getActionKey();
-		String[] urlPara = {null};
-		Action action = JFinal.me().getAction(target, urlPara);
+		
+		// 设置公共属性
+		if (controller instanceof BaseController) {
+			BaseForm form = ((BaseController) controller).getModelByForm(BaseForm.class);
+			controller.setAttr("form", form);
+		}
 		HttpServletResponse response = controller.getResponse();
 		//解决跨域问题
 		setHeader(response);
-		log.info(report(target,controller,action));
+		/**日志输出 ，暂时屏蔽*/
+		//String target = ai.getActionKey();
+		//String[] urlPara = {null};
+		//Action action = JFinal.me().getAction(target, urlPara);
+		//log.info(report(target,controller,action));
 		ai.invoke();
 	}
 	
 	
 	public static final void setHeader(HttpServletResponse response){
 		response.setHeader("Access-Control-Allow-Origin", "http://192.168.1.211:8189");  
-	//	response.setHeader("Access-Control-Allow-Origin", "http://127.0.0.1:8020");  
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");  
 		response.setHeader("Access-Control-Max-Age", "0");  
 		response.setHeader("Access-Control-Allow-Headers", "Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, X-E4M-With,userId,token");  

@@ -24,9 +24,9 @@ public class AutoCreate {
     // 需设置
     private String rootPath = System.getProperty("user.dir");
     private String outputPath = rootPath + "/" +  Config.getStr("template.output.path");
-    private String templatePath = Config.getStr("template.path.jfinal_cms");
-    private String packagePath = "com.pengji.modules";
-    private String module = "summer";
+    private String templatePath = Config.getStr("template.path.jfinal");
+    private String packagePath =  Config.getStr("template.packagePath");
+    private String module = Config.getStr("template.modules");
     private Map<String, CRUD> crudMap;
 
     public void create() throws Exception {

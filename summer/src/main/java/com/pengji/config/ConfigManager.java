@@ -19,15 +19,12 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.jfinal.kit.HashKit;
 import com.jfinal.kit.LogKit;
-import com.jfinal.kit.Prop;
-import com.jfinal.kit.PropKit;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.pengji.config.annotation.PropertieConfig;
@@ -51,7 +48,6 @@ public class ConfigManager {
     }
 
 
-    private Properties mainProperties;
     private ConfigConfig config;
 
     private PropInfoMap propInfoMap = new PropInfoMap();
@@ -80,15 +76,7 @@ public class ConfigManager {
 
 
     public ConfigManager() {
-        try {
-            Prop prop = PropKit.use("jboot.properties");
-            mainProperties = prop.getProperties();
-        } catch (Throwable ex) {
-            LOG.warn("Could not find jboot.properties in your class path.");
-            mainProperties = new Properties();
-        }
 
-        initModeProp();
 
         config = get(ConfigConfig.class);
 
@@ -183,11 +171,8 @@ public class ConfigManager {
      */
     private String getValueByKey(String key) {
 
-        String value = Config.getStartArg(key);
+        String value = Config.getStr(key);
 
-        if (StringUtils.isBlank(value)) {
-            value = (String) mainProperties.get(key);
-        }
         return value;
     }
 
@@ -205,48 +190,6 @@ public class ConfigManager {
         return setMethods;
     }
 
-    /**
-     * 或者Jboot默认的配置信息
-     *
-     * @return
-     */
-    public Properties getProperties() {
-        Properties properties = new Properties();
-
-        properties.putAll(mainProperties);
-
-        if (Config.getStartArgs() != null) {
-            for (Map.Entry<String, String> entry : Config.getStartArgs().entrySet()) {
-                properties.put(entry.getKey(), entry.getValue());
-            }
-        }
-
-        return properties;
-    }
-
-
-    /**
-     * 初始化不同model下的properties文件
-     */
-    private void initModeProp() {
-        String mode = (String) mainProperties.get("jboot.mode");
-        if (StringUtils.isBlank(mode)) {
-            return;
-        }
-
-        Prop modeProp = null;
-        try {
-            String p = String.format("jboot-%s.properties", mode);
-            modeProp = PropKit.use(p);
-        } catch (Throwable ex) {
-        }
-
-        if (modeProp == null) {
-            return;
-        }
-
-        mainProperties.putAll(modeProp.getProperties());
-    }
 
 
     /**

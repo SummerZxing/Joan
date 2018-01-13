@@ -33,7 +33,7 @@ public class SwaggerUI extends Controller {
     public void index() {
         String html = null;
         try {
-            html = renderToString("swaggerui/index.html", Maps.newHashMap());
+            html = renderToString(config.getTplPath()+"/index.html", Maps.newHashMap());
         } catch (Throwable ex) {
         }
 
@@ -44,8 +44,8 @@ public class SwaggerUI extends Controller {
         }
 
         html = html.replace("http://petstore.swagger.io/v2/swagger.json", getRequest().getRequestURL() + "json");
-        html = html.replace("src=\"./", "src=\"" + config.getPath() + "/");
-        html = html.replace("href=\"./", "href=\"" + config.getPath() + "/");
+        html = html.replace("src=\"./", "src=\"" + config.getTplPath() + "/");
+        html = html.replace("href=\"./", "href=\"" + config.getTplPath() + "/");
 
         renderHtml(html);
     }

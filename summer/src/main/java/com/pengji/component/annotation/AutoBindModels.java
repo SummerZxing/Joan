@@ -20,11 +20,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.eclipse.jetty.io.NetworkTrafficListener.Empty;
+
 import com.jfinal.core.Controller;
 import com.jfinal.kit.StrKit;
 import com.jfinal.log.Log;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
+import com.jfinal.plugin.activerecord.Config;
 import com.jfinal.plugin.activerecord.Model;
+import com.pengji.utils.EmptyUtil;
 
 /**
  * 自动绑定（来自jfinal ext) 1.如果没用加入注解，必须以Controller结尾,自动截取前半部分为key 2.加入ModelBind的 获取
@@ -42,7 +46,17 @@ public class AutoBindModels {
 
 	private List<Class<? extends Controller>> excludeClasses = new ArrayList<Class<? extends Controller>>();
 
-	private List<String> includeJars = new ArrayList<String>();
+	private static List<String> includeJars = new ArrayList<String>();
+	
+	static{
+		String str = com.pengji.config.Config.getStr("attr.modules");
+		if(!EmptyUtil.isNullOrEmpty(str)){
+			String[] split = str.split(",");
+			for(String s:split){
+				includeJars.add("com.pengji.modules."+s+".model");	
+			}
+		}
+	}
 
 	public AutoBindModels(ActiveRecordPlugin arp) {
 		this.arp = arp;

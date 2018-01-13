@@ -47,7 +47,12 @@ public class ClassSearcher {
 
 	public static <T> List<Class<? extends T>> findInClasspathAndJars(Class<T> clazz, List<String> includeJars) {
 		String path = PathUtils.rebuild(classPathUrl.getFile());
-		List<String> classFileList = findFiles(path, "*.class");
+		List<String> classFileList =new ArrayList<String>();
+		if(!includeJars.isEmpty()){
+			 classFileList = findFiles(path, "*.class",includeJars);	
+		}else{
+			 classFileList = findFiles(path, "*.class");	
+		}
 		String libPath = PathUtils.rebuild(lib);
 		classFileList.addAll(findjarFiles(libPath, includeJars));
 		return extraction(clazz, classFileList);
@@ -58,7 +63,26 @@ public class ClassSearcher {
 		List<String> classFileList = findFiles(file, "*.class");
 		return extraction(clazz, classFileList);
 	}
-
+	/**
+	 * 递归查找文件
+	 * 
+	 * @param baseDirName
+	 *            查找的文件夹路径
+	 * @param targetFileName
+	 *            需要查找的文件名
+	 * @param includepackages  
+	 * 			  需要扫描的包名  
+	 */
+	private static List<String> findFiles(String baseDirName, String targetFileName,List<String> includepackages) {
+		List<String> classFiles = new ArrayList<String>();
+		for(String p:includepackages){
+			 String replaceAll = p.replaceAll("\\.", "/");
+			 classFiles.addAll(findFiles(baseDirName+replaceAll,targetFileName));
+		}
+		return classFiles;
+	}
+	
+	
 	/**
 	 * 递归查找文件
 	 * 
