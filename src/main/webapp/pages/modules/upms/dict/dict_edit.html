@@ -1,0 +1,63 @@
+<% 
+DIRECTIVE SAFE_OUTPUT_OPEN;
+var headContent = {
+	include("/pages/template/head.html"){}
+%>
+<script type="text/javascript">
+	var oper = {
+		save:function(id){
+			if(!validForm()) {
+				return false;
+			}
+			id = id || '0';
+			var url = 'upms/dict/save/'+id;
+			form1.action = url;
+			form1.submit();
+			return true;
+		}	
+	};
+</script>
+
+<%
+};
+var bodyContent = {
+%>
+<form name="form1" action="" method="post" class="form-horizontal"
+		role="form" >
+	<input type="hidden" name="model.dict_id" value="${model.dict_id}" />
+	<table class="table">
+		<%  // 列表头部%>
+				<tr>
+					<td>名称</td>
+					<td>
+					<input class="form-control" type="text" name="model.dict_name" value="${model.dict_name }"  valid='vtext' validname='名称'  />
+					</td>
+				</tr>
+				<tr>
+					<td>类型</td>
+					<td>
+					<input class="form-control" type="text" name="model.dict_type" value="${model.dict_type }"  valid='vtext' validname='类型'  />
+					</td>
+				</tr>
+				<tr>
+					<td>备注</td>
+					<td>
+					<input class="form-control" type="text" name="model.dict_remark" value="${model.dict_remark }"  />
+					</td>
+				</tr>
+	</table>
+	
+	<div style="height: 50px;clear: both;">&nbsp;</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container" style="padding: 5px 0px 5px 0px;text-align: center;">
+		<button class="btn btn-primary" onclick="return oper.save(${model.dict_id});">保 存</button>
+		<button class="btn btn-default" onclick="closeIframe();return false;">关 闭</button>
+	  </div>
+	</nav>
+</form>
+<%}; %>
+
+<% layout("/pages/template/_layout.html",{head:headContent,body:bodyContent}){ %>
+<%}
+DIRECTIVE SAFE_OUTPUT_CLOSE; 
+%>

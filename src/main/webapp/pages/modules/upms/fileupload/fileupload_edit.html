@@ -1,0 +1,123 @@
+<% 
+DIRECTIVE SAFE_OUTPUT_OPEN;
+var headContent = {
+	include("/pages/template/head.html"){}
+%>
+<script type="text/javascript">
+	var oper = {
+		save:function(id){
+			if(!validForm()) {
+				return false;
+			}
+			id = id || '0';
+			var url = 'upms/fileupload/save/'+id;
+			form1.action = url;
+			form1.submit();
+			return true;
+		}	
+	};
+</script>
+
+<%
+};
+var bodyContent = {
+%>
+<form name="form1" action="" method="post" class="form-horizontal"
+		role="form" >
+	<input type="hidden" name="model.id" value="${model.id}" />
+	<table class="table">
+		<%  // 列表头部%>
+				<tr>
+					<td>名称</td>
+					<td>
+					<input class="form-control" type="text" name="model.name" value="${model.name }"  valid='vtext' validname='名称'  />
+					</td>
+				</tr>
+				<tr>
+					<td>文件路径</td>
+					<td>
+					<input class="form-control" type="text" name="model.path" value="${model.path }"  valid='vtext' validname='文件路径'  />
+					</td>
+				</tr>
+				<tr>
+					<td>实际路径</td>
+					<td>
+					<input class="form-control" type="text" name="model.factpath" value="${model.factpath }"  valid='vtext' validname='实际路径'  />
+					</td>
+				</tr>
+				<tr>
+					<td>后缀</td>
+					<td>
+					<input class="form-control" type="text" name="model.ext" value="${model.ext }"  valid='vtext' validname='后缀'  />
+					</td>
+				</tr>
+				<tr>
+					<td>原名称</td>
+					<td>
+					<input class="form-control" type="text" name="model.originalname" value="${model.originalname }"  valid='vtext' validname='原名称'  />
+					</td>
+				</tr>
+				<tr>
+					<td>类型</td>
+					<td>
+					<input class="form-control" type="text" name="model.type" value="${model.type }"  valid='vnum_y' validname='类型'  />
+					</td>
+				</tr>
+				<tr>
+					<td>大小</td>
+					<td>
+					<input class="form-control" type="text" name="model.size" value="${model.size }"  valid='vnum_y' validname='大小'  />
+					</td>
+				</tr>
+				<tr>
+					<td>描述</td>
+					<td>
+					<input class="form-control" type="text" name="model.remark" value="${model.remark }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>业务类型</td>
+					<td>
+					<input class="form-control" type="text" name="model.business_type" value="${model.business_type }"  valid='vnum_y' validname='业务类型'  />
+					</td>
+				</tr>
+				<tr>
+					<td>更新时间</td>
+					<td>
+					<input class="form-control" type="text" name="model.update_time" value="${model.update_time }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>更新人</td>
+					<td>
+					<input class="form-control" type="text" name="model.update_id" value="${model.update_id }"  valid='vnum' validname='更新人'  />
+					</td>
+				</tr>
+				<tr>
+					<td>创建时间</td>
+					<td>
+					<input class="form-control" type="text" name="model.create_time" value="${model.create_time }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>创建者</td>
+					<td>
+					<input class="form-control" type="text" name="model.create_id" value="${model.create_id }"  valid='vnum' validname='创建者'  />
+					</td>
+				</tr>
+	</table>
+	
+	<div style="height: 50px;clear: both;">&nbsp;</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container" style="padding: 5px 0px 5px 0px;text-align: center;">
+		<button class="btn btn-primary" onclick="return oper.save(${model.id});">保 存</button>
+		<button class="btn btn-default" onclick="closeIframe();return false;">关 闭</button>
+	  </div>
+	</nav>
+</form>
+<%}; %>
+
+<% layout("/pages/template/_layout.html",{head:headContent,body:bodyContent}){ %>
+<%}
+DIRECTIVE SAFE_OUTPUT_CLOSE; 
+%>

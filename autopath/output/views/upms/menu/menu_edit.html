@@ -1,0 +1,115 @@
+<% 
+DIRECTIVE SAFE_OUTPUT_OPEN;
+var headContent = {
+	include("/pages/template/head.html"){}
+%>
+<script type="text/javascript">
+	var oper = {
+		save:function(id){
+			if(!validForm()) {
+				return false;
+			}
+			id = id || '0';
+			var url = 'upms/menu/save/'+id;
+			form1.action = url;
+			form1.submit();
+			return true;
+		}	
+	};
+</script>
+
+<%
+};
+var bodyContent = {
+%>
+<form name="form1" action="" method="post" class="form-horizontal"
+		role="form" >
+	<input type="hidden" name="model.id" value="${model.id}" />
+	<table class="table">
+		<%  // 列表头部%>
+				<tr>
+					<td>父id</td>
+					<td>
+					<input class="form-control" type="text" name="model.parentid" value="${model.parentid }"  valid='vnum_y' validname='父id'  />
+					</td>
+				</tr>
+				<tr>
+					<td>名称</td>
+					<td>
+					<input class="form-control" type="text" name="model.name" value="${model.name }"  valid='vtext' validname='名称'  />
+					</td>
+				</tr>
+				<tr>
+					<td>菜单key</td>
+					<td>
+					<input class="form-control" type="text" name="model.urlkey" value="${model.urlkey }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>链接地址</td>
+					<td>
+					<input class="form-control" type="text" name="model.url" value="${model.url }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>状态</td>
+					<td>
+<label class="radio-inline">
+  <input type="radio" name="model.status" id="" value="2"  ${model.status==2?"checked":"" } > 隐藏
+</label>
+<label class="radio-inline">
+  <input type="radio" name="model.status" id="" value="1"  ${model.status==1?"checked":"" } > 显示
+</label>
+					</td>
+				</tr>
+				<tr>
+					<td>类型</td>
+					<td>
+					<select name="model.type" class="form-control" >
+	<option value="1" ${model.type==1?"selected":"" }>根目录</option>
+	<option value="2" ${model.type==2?"selected":"" }>a标签</option>
+	<option value="3" ${model.type==3?"selected":"" }>a标签_blank</option>
+	<option value="4" ${model.type==4?"selected":"" }>外部url</option>
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td>排序</td>
+					<td>
+					<input class="form-control" type="text" name="model.sort" value="${model.sort }"  valid='vnum' validname='排序'  />
+					</td>
+				</tr>
+				<tr>
+					<td>级别</td>
+					<td>
+					<input class="form-control" type="text" name="model.level" value="${model.level }"  valid='vnum' validname='级别'  />
+					</td>
+				</tr>
+				<tr>
+					<td>创建时间</td>
+					<td>
+					<input class="form-control" type="text" name="model.create_time" value="${model.create_time }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>创建者</td>
+					<td>
+					<input class="form-control" type="text" name="model.create_id" value="${model.create_id }"  valid='vnum' validname='创建者'  />
+					</td>
+				</tr>
+	</table>
+	
+	<div style="height: 50px;clear: both;">&nbsp;</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container" style="padding: 5px 0px 5px 0px;text-align: center;">
+		<button class="btn btn-primary" onclick="return oper.save(${model.id});">保 存</button>
+		<button class="btn btn-default" onclick="closeIframe();return false;">关 闭</button>
+	  </div>
+	</nav>
+</form>
+<%}; %>
+
+<% layout("/pages/template/_layout.html",{head:headContent,body:bodyContent}){ %>
+<%}
+DIRECTIVE SAFE_OUTPUT_CLOSE; 
+%>
