@@ -1,0 +1,77 @@
+<% 
+var headContent = {
+	include("/pages/template/head.html"){}
+};
+
+var bodyContent = {
+%>
+<form name="form1" action="" method="post" class="form-horizontal" role="form">
+	<!-- 数据列表 -->
+	<table class="table">
+		<%  // 列表头部 %>
+			<tr>
+				<td>名称</td>
+				<td>${model.name}</td>
+			</tr>
+			<tr>
+				<td>文件路径</td>
+				<td>${model.path}</td>
+			</tr>
+			<tr>
+				<td>实际路径</td>
+				<td>${model.factpath}</td>
+			</tr>
+			<tr>
+				<td>后缀</td>
+				<td>${model.ext}</td>
+			</tr>
+			<tr>
+				<td>原名称</td>
+				<td>${model.originalname}</td>
+			</tr>
+			<tr>
+				<td>类型</td>
+				<td>${model.type}</td>
+			</tr>
+			<tr>
+				<td>大小</td>
+				<td>${model.size}</td>
+			</tr>
+			<tr>
+				<td>描述</td>
+				<td>${model.remark}</td>
+			</tr>
+			<tr>
+				<td>业务类型</td>
+				<td>${model.business_type}</td>
+			</tr>
+			<tr>
+				<td>更新时间</td>
+				<td>${model.update_time}</td>
+			</tr>
+			<tr>
+				<td>更新人</td>
+				<td>${model.update_id}</td>
+			</tr>
+			<tr>
+				<td>创建时间</td>
+				<td>${model.create_time}</td>
+			</tr>
+			<tr>
+				<td>创建者</td>
+				<td>${model.create_id}</td>
+			</tr>
+		
+	</table>
+	
+	<div style="height: 50px;clear: both;">&nbsp;</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container" style="padding: 5px 0px 5px 0px;text-align: center;">
+		<button class="btn btn-default" onclick="closeIframe();return false;">关 闭</button>
+	  </div>
+	</nav>
+</form>
+<%}; %>
+
+<% layout("/pages/template/_layout.html",{head:headContent,body:bodyContent}){ %>
+<%} %>

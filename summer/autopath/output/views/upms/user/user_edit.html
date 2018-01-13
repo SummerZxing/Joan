@@ -1,0 +1,133 @@
+<% 
+DIRECTIVE SAFE_OUTPUT_OPEN;
+var headContent = {
+	include("/pages/template/head.html"){}
+%>
+<script type="text/javascript">
+	var oper = {
+		save:function(id){
+			if(!validForm()) {
+				return false;
+			}
+			id = id || '0';
+			var url = 'upms/user/save/'+id;
+			form1.action = url;
+			form1.submit();
+			return true;
+		}	
+	};
+</script>
+
+<%
+};
+var bodyContent = {
+%>
+<form name="form1" action="" method="post" class="form-horizontal"
+		role="form" >
+	<input type="hidden" name="model.userid" value="${model.userid}" />
+	<table class="table">
+		<%  // 列表头部%>
+				<tr>
+					<td>用户名</td>
+					<td>
+					<input class="form-control" type="text" name="model.username" value="${model.username }"  valid='vtext' validname='用户名'  />
+					</td>
+				</tr>
+				<tr>
+					<td>密码</td>
+					<td>
+					<input class="form-control" type="text" name="model.password" value="${model.password }"  valid='vtext' validname='密码'  />
+					</td>
+				</tr>
+				<tr>
+					<td>真实姓名</td>
+					<td>
+					<input class="form-control" type="text" name="model.realname" value="${model.realname }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>部门</td>
+					<td>
+					<select name="model.departid" class="form-control" >
+					${flyfox.dictSelect('' , model.departid!'')  }
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td>类型</td>
+					<td>
+					<select name="model.usertype" class="form-control" >
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td>状态</td>
+					<td>
+					<input class="form-control" type="text" name="model.state" value="${model.state }"  valid='vnum' validname='状态'  />
+					</td>
+				</tr>
+				<tr>
+					<td>结束时间</td>
+					<td>
+					<input class="form-control" type="text" name="model.endtime" value="${model.endtime }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>email</td>
+					<td>
+					<input class="form-control" type="text" name="model.email" value="${model.email }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>手机号</td>
+					<td>
+					<input class="form-control" type="text" name="model.tel" value="${model.tel }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>地址</td>
+					<td>
+					<input class="form-control" type="text" name="model.address" value="${model.address }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>头像地址</td>
+					<td>
+					<input class="form-control" type="text" name="model.title_url" value="${model.title_url }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>说明</td>
+					<td>
+					<input class="form-control" type="text" name="model.remark" value="${model.remark }"  />
+					</td>
+				</tr>
+				<tr>
+					<td>主题</td>
+					<td>
+					<select name="model.theme" class="form-control" >
+					</select>
+					</td>
+				</tr>
+				<tr>
+					<td>创建时间</td>
+					<td>
+					<input class="form-control" type="text" name="model.create_time" value="${model.create_time }"  />
+					</td>
+				</tr>
+	</table>
+	
+	<div style="height: 50px;clear: both;">&nbsp;</div>
+	<nav class="navbar navbar-default navbar-fixed-bottom">
+	  <div class="container" style="padding: 5px 0px 5px 0px;text-align: center;">
+		<button class="btn btn-primary" onclick="return oper.save(${model.userid});">保 存</button>
+		<button class="btn btn-default" onclick="closeIframe();return false;">关 闭</button>
+	  </div>
+	</nav>
+</form>
+<%}; %>
+
+<% layout("/pages/template/_layout.html",{head:headContent,body:bodyContent}){ %>
+<%}
+DIRECTIVE SAFE_OUTPUT_CLOSE; 
+%>
