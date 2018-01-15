@@ -23,6 +23,7 @@
 后期 集成 各模块 ，消息推送，分布式 ， 微服务 以做到支持海量用户 为目标
 
 # 项目启动
+*项目导入之后 可能会有红叉叉说不支持2.5,修改.settings/org.eclipse.wst.common.project.facet.core.xml 这个文件 jst.web 改为2.5 即可<br/>
 *web.xml 中配置了启动配置类 BaseConfig.java ， 所有相关配置 在 BaseConfig.java 中修改即可<br/>
 * 启动方式，建议 maven build   tomcat:run (Main.java 启动也可以，这种启动可能会样式加载不到)<br/><br/>
 
@@ -70,4 +71,6 @@
 # bean，controller扫描
 * config.properties 中 attr.modules 配置 模块 ， 多个以逗号 “,”隔开 <br/>
 * 项目启动时配置会自动扫描  com.pengji.modules.*.model 下  带有ModelBind 注解 的 bean, com.pengji.modules.*.controller 下 以Controller为结尾 或 带有 ControllerBind  注解 的 类
+
+
 
